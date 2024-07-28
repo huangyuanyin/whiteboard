@@ -1,30 +1,55 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="hyy-container">
+    <div class="hyy-toolbar">
+      <el-radio-group v-model="currentType">
+        <el-radio-button label="选择" value="selection" />
+        <el-radio-button label="矩形" value="rectangle" />
+      </el-radio-group>
+    </div>
+    <div class="hyy-canvasBox" ref="box">
+      <canvas class="hyy-canvas" ref="canvas"></canvas>
+    </div>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+<script setup>
+import { ref, onMounted } from 'vue'
+import App from './App'
+
+// 当前操作类型
+const currentType = ref('selection')
+// 画布盒子
+const box = ref(null)
+// 画布
+const canvas = ref(null)
+// 应用实例
+const app = new App()
+
+onMounted(() => {
+  app.init(box.value, canvas.value, currentType)
+})
+</script>
+
+<style lang="less" scoped>
+.hyy-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  .hyy-toolbar {
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+  .hyy-canvasBox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>
